@@ -1,4 +1,4 @@
-import Folder from "../categories-folder/categories-folder.component";
+import Folder from "../../categories-folder/categories-folder.component";
 
 const Home = () => {
   return (
