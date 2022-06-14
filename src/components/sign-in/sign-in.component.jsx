@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect} from "react"
 import { getRedirectResult } from "firebase/auth"; 
 
 
 import { 
-    createUserDoc,
     signInUserDocWithEmailAndPassword,
     signInWithGoogle,
     auth,
  } from "../../utils/firebase/firebase.utils"
-
 
 
 import Button from "../buttons/button.component"
@@ -24,12 +22,14 @@ const defaultInfo = {
 const SignIn = () =>{
     const [userInfo,setUserInfo] = useState(defaultInfo)
     const { email,password} = userInfo
+
+
+
     const handleSubmit = async (event) =>{
         event.preventDefault()
 
         try{
-            const res = await signInUserDocWithEmailAndPassword(email,password)
-            console.log(res)
+            const {user} = await signInUserDocWithEmailAndPassword(email,password)
             setUserInfo(defaultInfo)
         }catch(err){
             switch(err.code){
@@ -46,11 +46,7 @@ const SignIn = () =>{
     }
     useEffect(()=>{
         const LogInUser = async () =>{
-            const res = await getRedirectResult(auth)
-            if(res){
-                const userRef = await createUserDoc(res.user)
-
-            }
+           await getRedirectResult(auth)
         }
         LogInUser()
     },[])

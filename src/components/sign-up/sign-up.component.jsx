@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createUserDoc, createUserDocWithEmailAndPassword } from "../../utils/firebase/firebase.utils"
+import { createUserDoc, createUserAuthWithEmailAndPassword } from "../../utils/firebase/firebase.utils"
 import Button from "../buttons/button.component"
 import FormInput from "../form-input/form-input.component"
 
@@ -14,6 +14,8 @@ const defaultInfo = {
 const SignUp = () =>{
     const [userInfo,setUserInfo] = useState(defaultInfo)
     const { displayName, email, password, confpassword} = userInfo
+
+
     const handleSubmit = async (event) =>{
         event.preventDefault()
 
@@ -22,14 +24,15 @@ const SignUp = () =>{
             return
         }
         try{
-            const {user} = await createUserDocWithEmailAndPassword(email,password)
+            const {user} = await createUserAuthWithEmailAndPassword(email,password)
+
             await createUserDoc(user,{ displayName })
             setUserInfo(defaultInfo)
         }catch(err){
             if(err.code === 'auth/email-already-in-use'){
                 alert('email already in use')
             } else {
-                console.log(err.message)
+                console.log(err.code)
             }
             
         }
