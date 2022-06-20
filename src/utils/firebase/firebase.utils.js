@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app"
 import { 
     getAuth,
-    signInWithRedirect,
+    signInWithPopup,
     signInWithEmailAndPassword,
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
@@ -38,7 +38,7 @@ provider.setCustomParameters({
 })
 
 export const auth = getAuth()
-export const signInWithGoogle = () => signInWithRedirect(auth,provider)
+export const signInWithGooglePopUp = () => signInWithPopup(auth,provider)
 export const db = getFirestore()
 
 export const AddCollectionAndDocs = async (collectionKey,objsToAdd) => {
@@ -51,7 +51,6 @@ export const AddCollectionAndDocs = async (collectionKey,objsToAdd) => {
     })
 
     await batch.commit()
-    console.log('done')
 }
 export const getCategoriesAndDocs = async () => {
     const collectionRef = collection(db,"categories")
@@ -64,13 +63,10 @@ export const getCategoriesAndDocs = async () => {
 }
 export const createUserDoc = async (userAuth,moreInfo) => {
     const userDocRef = doc(db,'users',userAuth.uid)
-
     const userSnap = await getDoc(userDocRef)
-
     if(!userSnap.exists()){
         const {displayName , email} = userAuth
         const createdAt = new Date()
-
         try {
             await setDoc(userDocRef, {
                 displayName,
@@ -82,7 +78,7 @@ export const createUserDoc = async (userAuth,moreInfo) => {
             console.log('cannot create user : ',err.message)
         }
     }
-    return userDocRef
+    return userSnap
 }
 export const createUserAuthWithEmailAndPassword = async (email,password) =>{
     if(!email || !password) return
@@ -101,3 +97,16 @@ export const signOutUser = async () => await signOut(auth)
 
 export const onAuthStateChangedListener = (callback) =>
     onAuthStateChanged(auth,callback)
+
+export const getCurrentUser = () => {
+    return new Promise((resolve,reject)=> {
+        const unsubscribe = onAuthStateChanged(
+            auth,
+            userAuth => {
+                unsubscribe()
+                resolve(userAuth)
+            }, 
+            reject
+        )
+    })
+}

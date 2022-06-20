@@ -1,13 +1,6 @@
-import { useState, useEffect} from "react"
-import { getRedirectResult } from "firebase/auth"; 
-
-
-import { 
-    signInUserDocWithEmailAndPassword,
-    signInWithGoogle,
-    auth,
- } from "../../utils/firebase/firebase.utils"
-
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { googleSignInStart , emailSignInStart} from "../../store/user/user.action"
 
 import Button,{buttonClassTypes} from "../buttons/button.component"
 import FormInput from "../form-input/form-input.component"
@@ -20,16 +13,15 @@ const defaultInfo = {
     password:'',
 }
 const SignIn = () =>{
+    const dispatch = useDispatch()
     const [userInfo,setUserInfo] = useState(defaultInfo)
     const { email,password} = userInfo
-
-
 
     const handleSubmit = async (event) =>{
         event.preventDefault()
 
         try{
-            const {user} = await signInUserDocWithEmailAndPassword(email,password)
+            dispatch(emailSignInStart(email,password))
             setUserInfo(defaultInfo)
         }catch(err){
             switch(err.code){
@@ -44,12 +36,9 @@ const SignIn = () =>{
             }
         }
     }
-    useEffect(()=>{
-        const LogInUser = async () =>{
-           await getRedirectResult(auth)
-        }
-        LogInUser()
-    },[])
+    const signInWithGoogle = async () => {
+        dispatch(googleSignInStart())
+    }
 
     const handleChange = (event) =>{
         const {name,value} = event.target
