@@ -1,16 +1,17 @@
 import {Outlet} from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useSelector , useDispatch} from "react-redux"
 import CartIcon from "../../cart-icon/cart-icon.component"
 import CartDropdown from "../../cart-dropdown/cart-dropdown.component"
 import {ReactComponent as Crown} from "../../../assets/crown.svg"
 import { selectIsCartOpen } from "../../../store/cart/cart.selector"
-import { signOutUser } from "../../../utils/firebase/firebase.utils"
 import { selectCurrentUser } from "../../../store/user/user.selector"
 import {NavigationContainer , LogoContainer , NavLinks , NavLink} from "./navigation.style"
+import { signOutAction } from "../../../store/user/user.action"
 const Navigation = () => {
+  const dispatch = useDispatch()
   const currentUser = useSelector(selectCurrentUser)
- 
   const isCartOpen  = useSelector(selectIsCartOpen)
+  const signOutHandler = () => dispatch(signOutAction())
     return (
       <>
         <NavigationContainer>
@@ -22,7 +23,7 @@ const Navigation = () => {
                 <NavLink to="/shop">Shop</NavLink>
                 {
                   currentUser ? (
-                    <NavLink as="span" onClick={signOutUser}>Sign Out</NavLink>
+                    <NavLink as="span" onClick={signOutHandler}>Sign Out</NavLink>
                   ) : (
                     <NavLink to="/auth">Sign In</NavLink>
                   )
