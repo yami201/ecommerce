@@ -22,7 +22,7 @@ const sagaMiddleware = createSagaMiddleware()
 const persistConfig = {
     key:"root",
     storage,
-    whitelist: ['user']
+    whitelist: ['cart']
 }
 const persistedReducer = persistReducer(persistConfig,rootReducer)
 const middleWares = [process.env.NODE_ENV !== 'production' && logger, sagaMiddleware].filter(Boolean)
