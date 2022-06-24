@@ -1,4 +1,5 @@
 import {CartDropdownContainer , EmptyMsg , CartItems} from "./cart-dropdown.style"
+import { useCallback , useMemo} from "react"
 import Button from "../buttons/button.component"
 import CartItem from "../cart-item/cart-item.component"
 import { useSelector } from "react-redux"
@@ -8,6 +9,7 @@ const CartDropdown = () => {
     const navigate = useNavigate()
     const cartItems  = useSelector(selectCartItems)
 
+    const navigateToCheckoutHandler = useCallback(() => navigate("/checkout"),[])
     return (
         <CartDropdownContainer>
             <CartItems>
@@ -17,9 +19,9 @@ const CartDropdown = () => {
                         <CartItem key={cartItem.id} item={cartItem}/>
                     )) : (<EmptyMsg>Your cart is empty</EmptyMsg>)
                 }
-                
+
             </CartItems>
-            <Button onClick={() => navigate("/checkout")}>Go to checkout</Button>
+            <Button onClick={navigateToCheckoutHandler}>Go to checkout</Button>
         </CartDropdownContainer>
     )
 }

@@ -1,4 +1,5 @@
 import { useDispatch , useSelector } from "react-redux"
+import { useCallback , memo} from "react"
 import { addItemToCart , removeItemFromCart, clearItemFromCart} from "../../store/cart/cart.action"
 import { selectCartItems } from "../../store/cart/cart.selector"
 import {
@@ -10,14 +11,14 @@ import {
     Value,
     RemoveBtn,
 } from "./checkout-item.style"
-const CheckoutItem = ({item}) => {
+const CheckoutItem = memo(({item}) => {
     const dispatch = useDispatch()
     const cartItems = useSelector(state => selectCartItems(state))
 
     const { name ,imageUrl , price , quantity} = item
-    const addItemHandler = () => dispatch(addItemToCart(cartItems,item))
-    const removeItemHandler = () => dispatch(removeItemFromCart(cartItems,item))
-    const clearItemHandler = () => dispatch(clearItemFromCart(cartItems,item))
+    const addItemHandler = useCallback(() => dispatch(addItemToCart(cartItems,item)),[cartItems,item])
+    const removeItemHandler = useCallback(() => dispatch(removeItemFromCart(cartItems,item)),[cartItems,item])
+    const clearItemHandler = useCallback(() => dispatch(clearItemFromCart(cartItems,item)))
     return (
         <CheckoutItemContainer>
             <ImageContainer>
@@ -41,5 +42,5 @@ const CheckoutItem = ({item}) => {
             </RemoveBtn>
         </CheckoutItemContainer>
     )
-}
+})
 export default CheckoutItem

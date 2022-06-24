@@ -7,11 +7,12 @@ import { selectIsCartOpen } from "../../../store/cart/cart.selector"
 import { selectCurrentUser } from "../../../store/user/user.selector"
 import {NavigationContainer , LogoContainer , NavLinks , NavLink} from "./navigation.style"
 import { signOutAction } from "../../../store/user/user.action"
+import { useCallback } from "react"
 const Navigation = () => {
   const dispatch = useDispatch()
   const currentUser = useSelector(selectCurrentUser)
   const isCartOpen  = useSelector(selectIsCartOpen)
-  const signOutHandler = () => dispatch(signOutAction())
+  const signOutHandler = useCallback(() => dispatch(signOutAction()),[])
     return (
       <>
         <NavigationContainer>

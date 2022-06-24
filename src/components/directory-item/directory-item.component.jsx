@@ -1,11 +1,10 @@
 import {DirectoryItemContainer, BackgroundImage , Body} from './directory-item.style'
 import { useNavigate } from 'react-router-dom'
+import { useCallback } from 'react'
 const DirectoryItem = ({category}) => {
   const navigate = useNavigate()
   const {imageUrl, title, route} = category
-  const navigateHandler = () => {
-    navigate(route)
-  }
+  const navigateHandler = useCallback(() => navigate(route),[route])
   return (
   <DirectoryItemContainer onClick={navigateHandler}>
     <BackgroundImage imageUrl={imageUrl}/>
