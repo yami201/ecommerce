@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { signUpStart } from "../../store/user/user.action"
-import Button from "../buttons/button.component"
+import { signUpStart , googleSignInStart } from "../../store/user/user.action"
+import Button, {buttonClassTypes} from "../buttons/button.component"
 import FormInput from "../form-input/form-input.component"
 
-import {SignUpContainer} from "./sign-up.style.jsx"
+import {SignUpContainer, Title, OrLine, OrSpan} from "./sign-up.style.jsx"
 
 const defaultInfo = {
     displayName:'',
@@ -17,6 +17,9 @@ const SignUp = () =>{
     const [userInfo,setUserInfo] = useState(defaultInfo)
     const { displayName, email, password, confpassword} = userInfo
 
+    const signInWithGoogle = async () => {
+        dispatch(googleSignInStart())
+    }
 
     const handleSubmit = async (event) =>{
         event.preventDefault()
@@ -47,8 +50,14 @@ const SignUp = () =>{
     }
     return (
         <SignUpContainer>
-            <h2>Don't have an account?</h2>
-            <span>Sign Up with email and password</span>
+            <Title>Sign Up</Title>
+            <Button 
+                        type='button'
+                        buttonType={buttonClassTypes.google}
+                        onClick={signInWithGoogle}
+                    >Sign up with google</Button>
+            <OrLine/>
+            <OrSpan>OR</OrSpan>
             <form onSubmit={handleSubmit}>
                 <FormInput 
                     label='Display name'
@@ -83,7 +92,9 @@ const SignUp = () =>{
                     value={confpassword}
                     onChange={handleChange}/>
 
-                <Button type="submit">Sign Up</Button>
+                <Button 
+                    type="submit"
+                    buttonType={buttonClassTypes.sign}>Sign Up</Button>
             </form>
         </SignUpContainer>
 

@@ -6,7 +6,7 @@ import Button,{buttonClassTypes} from "../buttons/button.component"
 import FormInput from "../form-input/form-input.component"
 
 
-import {SignInContainer,ButtonsContainer} from "./sign-in.style.jsx"
+import {SignInContainer, Title, OrSpan, OrLine} from "./sign-in.style.jsx"
 
 const defaultInfo = {
     email:'',
@@ -50,10 +50,15 @@ const SignIn = () =>{
     }
     return (
         <SignInContainer>
-            <h2>Already have an account?</h2>
-            <span>Sign In with email and password</span>
+            <Title>Sign In</Title>
+            <Button 
+                        type='button'
+                        buttonType={buttonClassTypes.google}
+                        onClick={signInWithGoogle}
+                    >Sign in with google</Button>
+            <OrLine/>
+            <OrSpan>OR</OrSpan>
             <form onSubmit={handleSubmit}>
-
                 <FormInput
                     label='Email'
                     required 
@@ -61,7 +66,6 @@ const SignIn = () =>{
                     name="email" 
                     value={email}
                     onChange={handleChange}/>
-
                 <FormInput
                     label='Password'
                     required 
@@ -69,15 +73,17 @@ const SignIn = () =>{
                     name="password" 
                     value={password}
                     onChange={handleChange}/>
-                <ButtonsContainer>
+                <Button 
+                    type="submit"
+                    buttonType={buttonClassTypes.sign}>Sign In</Button>
+                {/* <ButtonsContainer>
                     <Button type="submit">Sign In</Button>
                     <Button 
                         type='button'
                         buttonType={buttonClassTypes.google}
                         onClick={signInWithGoogle}
                     >Google Sign In</Button>
-                </ButtonsContainer>
-                
+                </ButtonsContainer> */}
             </form>
         </SignInContainer>
 

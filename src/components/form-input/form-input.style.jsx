@@ -1,41 +1,49 @@
 import styled , {css} from "styled-components"
 
-const subColor = 'grey'
-const mainColor = 'black'
+const mainColor = '#726562'
+
 
 const shrinkLabelStyles = css`
-  top: -14px;
+  left:20px;
+  top: -10px;
   font-size: 12px;
   color: ${mainColor};
+  background-color: white;
+  padding: 4px;
+  border-left: 1px solid ${mainColor};
+  border-right: 1px solid ${mainColor};
+  border-radius: 5px;
 `
 export const InputLabel = styled.label`
-
-  color: ${subColor};
-  font-size: 16px;
-  font-weight: normal;
+  color: ${mainColor};
+  font-size: 24px;
+  font-weight: bold;
   position: absolute;
   pointer-events: none;
-  left: 5px;
+  left: 7px;
   top: 10px;
   transition: 300ms ease all;
 
   ${({shrink}) => shrink && shrinkLabelStyles}
 `
 export const InputForm = styled.input`
-  background: none;
-  background-color: white;
-  color: ${subColor};
-  font-size: 18px;
-  padding: 10px 10px 10px 5px;
+  background-color: transparent;
+  color: ${mainColor};
+  font-size: 20px;
+  padding: 10px;
   display: block;
   width: 100%;
   border: none;
-  border-radius: 0;
-  border-bottom: 1px solid ${subColor};
-  margin: 25px 0;
-
+  border-bottom: 1px solid ${mainColor};
+  letter-spacing: 1px;
+  border-radius: 20px;
+  margin: 0;
   &:focus {
     outline: none;
+    border: none;
+    
+    border: 1px solid ${mainColor};
+    transition: 500ms all ease;
   }
 
   &:focus ~ ${InputLabel} {
@@ -44,7 +52,7 @@ export const InputForm = styled.input`
 `
 export const Group = styled.div`
   position: relative;
-  margin: 45px 0;
+  margin: 20px 0;
 
   input[type='password'] {
     letter-spacing: 0.3em;
